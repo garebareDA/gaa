@@ -1,7 +1,7 @@
 package engine
 
 type Engine struct {
-	routes route
+	routes Route
 }
 
 func (e Engine) New() {

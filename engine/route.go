@@ -1,5 +1,5 @@
 package engine
 
-type route struct {
+type Route struct {
 	path string
 }
