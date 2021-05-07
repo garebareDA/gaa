@@ -46,7 +46,7 @@ func (e *Engine) Post(path string, handle Handle) {
 }
 
 func (e *Engine) Run(addr string) {
-	log.Println("Liten on" + addr)
+	log.Println("Listen on" + addr)
 	http.ListenAndServe(addr, e.router)
 }
 
