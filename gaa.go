@@ -1,5 +1,5 @@
 package gaa
 
-func New() {
-
+func New() *Engine {
+	return EngineNew()
 }

@@ -10,7 +10,7 @@ func MiddleNew(constructors ...Constructor) Middle {
 	return Middle{append(([]Constructor(nil)), constructors...)}
 }
 
-func (m Middle) Append(constructors ...Constructor) Middle {
+func (m Middle) Append(constructors []Constructor) Middle {
 	new := make([]Constructor, 0, len(m.constructors)+len(constructors))
 	new = append(new, m.constructors...)
 	new = append(new, constructors...)

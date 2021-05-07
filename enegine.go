@@ -14,17 +14,21 @@ type Engine struct {
 
 func EngineNew() *Engine {
 	router := RouterNew(Root)
-	middle := MiddleNew()
+	middle := MiddleNew(loggingHandler)
 	return &Engine{
 		router: router,
 		middle: middle,
 	}
 }
 
-func loggingHandler(w http.ResponseWriter, r *http.Request, u url.Values) {
-	t1 := time.Now()
-	t2 := time.Now()
-	log.Printf("[%s] %q %v\n", r.Method, r.URL.String(), t2.Sub(t1))
+func loggingHandler(next Handle) Handle {
+	fn := func(w http.ResponseWriter, r *http.Request, u url.Values) {
+		t1 := time.Now()
+		next(w, r, u)
+		t2 := time.Now()
+		log.Printf("[%s] %q %v\n", r.Method, r.URL.String(), t2.Sub(t1))
+	}
+	return fn
 }
 
 func (e *Engine) Get(path string, handle Handle) {
@@ -42,9 +46,15 @@ func (e *Engine) Post(path string, handle Handle) {
 }
 
 func (e *Engine) Run(addr string) {
+	log.Println("Liten on" + addr)
 	http.ListenAndServe(addr, e.router)
 }
 
 func Root(res http.ResponseWriter, req *http.Request, url url.Values) {
-	log.Printf("Hello Gaa!\n")
+
+}
+
+func (e *Engine) Middle(constructors ...Constructor) {
+	add := e.middle.Append(constructors)
+	e.middle = add
 }
