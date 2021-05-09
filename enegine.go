@@ -45,9 +45,13 @@ func (e *Engine) Post(path string, handle Handle) {
 	e.router.Handle("POST", path, e.middle.Then(handle))
 }
 
-func (e *Engine) Run(addr string) {
+func (e *Engine) Run(addr string) error {
 	log.Println("Listen on" + addr)
-	http.ListenAndServe(addr, e.router)
+	return http.ListenAndServe(addr, e.router)
+}
+
+func (e *Engine) URL() {
+
 }
 
 func Root(res http.ResponseWriter, req *http.Request, url url.Values) {
